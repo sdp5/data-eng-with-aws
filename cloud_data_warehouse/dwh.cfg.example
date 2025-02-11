@@ -1,0 +1,30 @@
+[AWS]
+KEY     =
+SECRET  =
+TOKEN   =
+REGION  = us-west-2
+
+[IAM]
+ROLE_NAME = dwh-role
+ROLE_ARN  =
+
+[S3]
+LOG_DATA     = 's3://udacity-dend/log_data'
+LOG_JSONPATH = 's3://udacity-dend/log_json_path.json'
+SONG_DATA    = 's3://udacity-dend/song_data'
+BUCKET       = 'udacity-dend'
+REGION       = 'us-west-2'
+
+[DWH]
+DWH_CLUSTER_TYPE       = multi-node
+DWH_NUM_NODES          = 4
+DWH_NODE_TYPE          = dc2.large
+
+DWH_CLUSTER_IDENTIFIER = udacity-redshift
+DWH_DB                 = warehouse
+DWH_DB_USER            =
+DWH_DB_PASSWORD        =
+DWH_PORT               = 5439
+
+# HOST
+DWH_ENDPOINT           =
