@@ -32,9 +32,12 @@ def main():
         password=config['DWH']['DWH_DB_PASSWORD']
     )
     cur = conn.cursor()
-    
+
     load_staging_tables(cur, conn)
+    print("\nLoad staging tables complete.")
+
     insert_tables(cur, conn)
+    print("\nInsert tables complete.")
 
     conn.close()
 

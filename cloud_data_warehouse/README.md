@@ -51,6 +51,8 @@ This will copy data from `S3 bucket` to the staging tables by `COPY` command.
 
 To list number of rows, five most played articles etc.
 
+See `OUTPUT.md`
+
 6. `python3 tear_down_aws_services.py`
 
 This will free up created AWS services.

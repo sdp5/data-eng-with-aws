@@ -1,8 +1,6 @@
 # Provision AWS Services
 
 import pandas as pd
-import datetime
-from dateutil.tz import tzutc
 import configparser
 import boto3
 import json
@@ -32,6 +30,7 @@ DWH_DB = config.get('DWH', 'DWH_DB')
 DWH_DB_USER = config.get('DWH', 'DWH_DB_USER')
 DWH_DB_PASSWORD = config.get('DWH', 'DWH_DB_PASSWORD')
 DWH_PORT = config.get('DWH', 'DWH_PORT')
+DWH_ENDPOINT = config.get('DWH', 'DWH_ENDPOINT')
 
 aws_client_iam = boto3.client('iam',
                               region_name=REGION,
@@ -56,20 +55,27 @@ def create_iam_role() -> Any:
     try:
         print("\nCreating a new IAM Role")
 
+        assume_role_policy_document = json.dumps({
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "redshift.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        })
+
         dwh_role = aws_client_iam.create_role(
             Path='/',
             # name given in my configuration file
             RoleName=IAM_ROLE_NAME,
             Description="Allows Redshift clusters to call AWS services.",
-            AssumeRolePolicyDocument=json.dumps({
-                'Statement': [{
-                    'Action': 'sts:AssumeRole',
-                    'Effect': 'Allow',
-                    'Principal': {'Service': 'redshift.amazonaws.com'}
-                }],
-                'Version': '2012-10-17'
-            })
+            AssumeRolePolicyDocument=assume_role_policy_document
         )
+        print(f"\nDWH Role: {dwh_role}")
     except Exception as e:
         print(e)
 
@@ -95,6 +101,7 @@ def create_redshift_cluster(iam_role_arn: Any) -> Any:
             ClusterType=DWH_CLUSTER_TYPE,
             NodeType=DWH_NODE_TYPE,
             NumberOfNodes=int(DWH_NUM_NODES),
+            PubliclyAccessible=True,    # This can be done on AWS Console as well.
 
             # first database of the cluster
             DBName=DWH_DB,
@@ -185,5 +192,4 @@ if __name__ == "__main__":
 
     access_cluster_endpoint(cluster_props)
     conn = check_cluster_connection()
-
     assert conn

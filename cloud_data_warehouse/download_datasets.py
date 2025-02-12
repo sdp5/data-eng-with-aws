@@ -11,6 +11,8 @@ SECRET = config.get('AWS', 'SECRET')
 TOKEN = config.get('AWS', 'TOKEN')
 REGION = config.get('AWS', 'REGION')
 
+LIST_ALL_OBJECTS = False
+
 # creating a S3 resource via boto3.resource
 s3 = boto3.resource('s3',
                     region_name=REGION,
@@ -30,9 +32,10 @@ S3_BUCKET_NAME = "udacity-dend"
 # access/get the S3 bucket
 bucket = s3.Bucket(S3_BUCKET_NAME)
 
-# list all objects' names ('filenames') inside this bucket
-for bucket_objects in bucket.objects.all():
-    print(bucket_objects.key)
+if LIST_ALL_OBJECTS:
+    # list all objects' names ('filenames') inside this bucket
+    for bucket_objects in bucket.objects.all():
+        print(bucket_objects.key)
 
 # getting all objects with prefix `log_data` inside the bucket `udacity-dend`
 log_data_objects = s3_client.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix="log_data")
