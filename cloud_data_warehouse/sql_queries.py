@@ -137,6 +137,9 @@ FORMAT AS JSON 'auto';
 
 # FINAL TABLES
 
+# Review comments:
+# Distinct is not required for fact table, they can store duplicates
+# Add a filter for 'duration=length'
 songplay_table_insert = ("""
 INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
 SELECT DISTINCT TIMESTAMP 'epoch' + e.ts/1000 * INTERVAL '1 second', e.userId, e.level, s.song_id, s.artist_id, e.sessionId, s.artist_location, e.userAgent

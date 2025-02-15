@@ -6,6 +6,12 @@ import boto3
 import json
 import redshift_connector
 
+# Review Comments:
+# Wonderful work
+# Setting up the aws resources via code is industry best way,
+# doing it here not mandatory but a good value add.
+# Big Kudos for getting it right
+
 from typing import Any
 
 config = configparser.ConfigParser()

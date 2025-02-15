@@ -18,6 +18,17 @@ class DataQualityOperator(BaseOperator):
         self.data_quality_count_checks = data_quality_count_checks
         self.data_quality_null_checks = data_quality_null_checks
 
+    # Review Comments:
+    # The DQ operator is done right, but there is still a different way
+    # to make it more flexible for future test cases
+    #
+    # Check sample code -
+    # for i, dq_check in enumerate(self.dq_checks):
+    #     records = redshift_hook.get_records(dq_check['test_sql'])
+    #     if not dq_check['expected_results'] == records[0][0]:
+    #         raise ValueError(
+    #             f"Data quality check #{i} failed. {put explanation of the error here}"
+    #         )
     def execute(self, context):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
 

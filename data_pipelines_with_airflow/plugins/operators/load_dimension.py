@@ -24,6 +24,8 @@ class LoadDimensionOperator(BaseOperator):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
 
         if self.mode == 'delete-load':
+            # Review Comments:
+            # truncate insert is pattern we follow for dimension table, well done
             self.log.info("\n\n### Deleting data from Dimensional Table")
             redshift.run(f"TRUNCATE {self.table}")
 

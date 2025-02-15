@@ -17,6 +17,8 @@ AIRFLOW_AWS_CONN_ID = "aws_default"
 AIRFLOW_REDSHIFT_ID = "redshift"
 
 
+# Review Comments:
+# All the required parameters are added
 default_args = {
     'owner': 'Sparkify',
     'depends_on_past': False,

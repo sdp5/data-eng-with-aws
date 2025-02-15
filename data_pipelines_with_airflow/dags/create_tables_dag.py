@@ -14,6 +14,10 @@ AIRFLOW_REDSHIFT_ID = "redshift"
 @dag(start_date=pendulum.now(),
      max_active_runs=1)
 def create_tables():
+    # Review Comments:
+    # Excellent work
+    # Keeping the table creation dag separate is the right thing to do, this is one time task
+
     create_artists_table = PostgresOperator(
         task_id='create_artists_table',
         conn_id=AIRFLOW_REDSHIFT_ID,
